@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Tag: 随笔 | 袁小猛的博客</title>
+  <title>JMM读书笔记 | 袁小猛的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="袁小猛的博客">
-<meta property="og:url" content="http://example.com/tags/%E9%9A%8F%E7%AC%94/index.html">
+  <meta name="description" content="基础概念1. 并发内存模型需要解决的问题 不同线程之间内存变量同步同步一般有两种方式：1、共享内存变量，2、传递消息 不同线程之间如何通信  Java采用的是共享内存变量进行同步的 2. 重排序 编译器重排序 指令级重排序 内存系统重排序  重排序是为了提升执行速度处理器对指令序列进行了重新排序的优化重排序虽然提升了效率，但同时也带了新的问题，为了解决重拍序问题，引入了内存屏障 3. 内存屏障 s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMM读书笔记">
+<meta property="og:url" content="http://example.com/2020/09/21/JMM%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="袁小猛的博客">
+<meta property="og:description" content="基础概念1. 并发内存模型需要解决的问题 不同线程之间内存变量同步同步一般有两种方式：1、共享内存变量，2、传递消息 不同线程之间如何通信  Java采用的是共享内存变量进行同步的 2. 重排序 编译器重排序 指令级重排序 内存系统重排序  重排序是为了提升执行速度处理器对指令序列进行了重新排序的优化重排序虽然提升了效率，但同时也带了新的问题，为了解决重拍序问题，引入了内存屏障 3. 内存屏障 s">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-21T02:58:15.000Z">
+<meta property="article:modified_time" content="2020-09-21T08:37:21.005Z">
 <meta property="article:author" content="yuanchuang">
+<meta property="article:tag" content="JMM">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="袁小猛的博客" type="application/atom+xml">
@@ -150,60 +155,210 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-JMM读书笔记" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/18/my-first-blog/" class="archive-article-date">
-  	<time datetime="2020-09-18T07:08:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/18/my-first-blog/">这是我的第一个Hexo博客！</a>
+    <h1 class="article-title" itemprop="name">
+      JMM读书笔记
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/09/21/JMM%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2020-09-21T02:58:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><h3 id="1-并发内存模型需要解决的问题"><a href="#1-并发内存模型需要解决的问题" class="headerlink" title="1. 并发内存模型需要解决的问题"></a>1. 并发内存模型需要解决的问题</h3><ul>
+<li>不同线程之间内存变量同步<br>同步一般有两种方式：1、共享内存变量，2、传递消息</li>
+<li>不同线程之间如何通信</li>
+</ul>
+<p><strong>Java采用的是共享内存变量进行同步的</strong></p>
+<h3 id="2-重排序"><a href="#2-重排序" class="headerlink" title="2. 重排序"></a>2. 重排序</h3><ul>
+<li>编译器重排序</li>
+<li>指令级重排序</li>
+<li>内存系统重排序</li>
+</ul>
+<p><strong>重排序是为了提升执行速度处理器对指令序列进行了重新排序的优化</strong><br><em>重排序虽然提升了效率，但同时也带了新的问题，为了解决重拍序问题，引入了内存屏障</em></p>
+<h3 id="3-内存屏障"><a href="#3-内存屏障" class="headerlink" title="3. 内存屏障"></a>3. 内存屏障</h3><ul>
+<li>store store</li>
+<li>store load</li>
+<li>load load</li>
+<li>load store</li>
+</ul>
+<h3 id="4-happends-before规则"><a href="#4-happends-before规则" class="headerlink" title="4. happends-before规则"></a>4. happends-before规则</h3><ul>
+<li>同一线程中当前操作happends-before后续该线程的其他操作</li>
+<li>监视器规则：锁的释放（解锁）happends-before锁的获取（加锁）</li>
+<li>用volatile关键字修饰的变量的写操作happends-before任意线程对该变量的读操作</li>
+<li>传递性：如果A操作happends-before B操作，B操作happends-before C操作 则 A happends-before B</li>
+</ul>
+<p><strong>as-if-serial规则：同一线程中，不管如何排序，最终的操作结果不变。可看成顺序执行代码</strong><br><strong>顺序执行内存模型：一个理想的模型，比较严格的规定了程序顺序执行的方式</strong><br><strong>Java默认不是顺序执行的模型，只保证程序正常运行</strong><br><em>在x86处理器中，只有写读进行重排序，所以我们主要阻止在多线程环境下写，读操作的重排序</em></p>
+<h3 id="5-volatile语义的实现"><a href="#5-volatile语义的实现" class="headerlink" title="5. volatile语义的实现"></a>5. volatile语义的实现</h3><h3 id="6-锁语义的实现"><a href="#6-锁语义的实现" class="headerlink" title="6. 锁语义的实现"></a>6. 锁语义的实现</h3><ul>
+<li>volatile保存state，并通过CAS操作，保证不会重排序，因为CAS操作具有原子性</li>
+</ul>
+<h3 id="7-final语义"><a href="#7-final语义" class="headerlink" title="7. final语义"></a>7. final语义</h3><ul>
+<li>final修饰的变量，在初始化时对final域的写，不能与final域引用对象的赋值操作重排序</li>
+<li>final修饰的变量，第一次读final域，不能与第一次final域引用对象的赋值操作重排序</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JMM</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/09/21/JMM%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/09/18/my-first-blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">这是我的第一个Hexo博客！</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B9%B6%E5%8F%91%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E9%9C%80%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.0.1.</span> <span class="toc-text">1. 并发内存模型需要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%87%8D%E6%8E%92%E5%BA%8F"><span class="toc-number">1.0.2.</span> <span class="toc-text">2. 重排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C"><span class="toc-number">1.0.3.</span> <span class="toc-text">3. 内存屏障</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-happends-before%E8%A7%84%E5%88%99"><span class="toc-number">1.0.4.</span> <span class="toc-text">4. happends-before规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-volatile%E8%AF%AD%E4%B9%89%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.0.5.</span> <span class="toc-text">5. volatile语义的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E9%94%81%E8%AF%AD%E4%B9%89%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.0.6.</span> <span class="toc-text">6. 锁语义的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-final%E8%AF%AD%E4%B9%89"><span class="toc-number">1.0.7.</span> <span class="toc-text">7. final语义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -226,9 +381,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
