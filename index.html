@@ -172,38 +172,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><h3 id="1-并发内存模型需要解决的问题"><a href="#1-并发内存模型需要解决的问题" class="headerlink" title="1. 并发内存模型需要解决的问题"></a>1. 并发内存模型需要解决的问题</h3><ul>
-<li>不同线程之间内存变量同步<br>同步一般有两种方式：1、共享内存变量，2、传递消息</li>
-<li>不同线程之间如何通信</li>
-</ul>
-<p><strong>Java采用的是共享内存变量进行同步的</strong></p>
-<h3 id="2-重排序"><a href="#2-重排序" class="headerlink" title="2. 重排序"></a>2. 重排序</h3><ul>
-<li>编译器重排序</li>
-<li>指令级重排序</li>
-<li>内存系统重排序</li>
-</ul>
-<p><strong>重排序是为了提升执行速度处理器对指令序列进行了重新排序的优化</strong><br><em>重排序虽然提升了效率，但同时也带了新的问题，为了解决重拍序问题，引入了内存屏障</em></p>
-<h3 id="3-内存屏障"><a href="#3-内存屏障" class="headerlink" title="3. 内存屏障"></a>3. 内存屏障</h3><ul>
-<li>store store</li>
-<li>store load</li>
-<li>load load</li>
-<li>load store</li>
-</ul>
-<h3 id="4-happends-before规则"><a href="#4-happends-before规则" class="headerlink" title="4. happends-before规则"></a>4. happends-before规则</h3><ul>
-<li>同一线程中当前操作happends-before后续该线程的其他操作</li>
-<li>监视器规则：锁的释放（解锁）happends-before锁的获取（加锁）</li>
-<li>用volatile关键字修饰的变量的写操作happends-before任意线程对该变量的读操作</li>
-<li>传递性：如果A操作happends-before B操作，B操作happends-before C操作 则 A happends-before B</li>
-</ul>
-<p><strong>as-if-serial规则：同一线程中，不管如何排序，最终的操作结果不变。可看成顺序执行代码</strong><br><strong>顺序执行内存模型：一个理想的模型，比较严格的规定了程序顺序执行的方式</strong><br><strong>Java默认不是顺序执行的模型，只保证程序正常运行</strong><br><em>在x86处理器中，只有写读进行重排序，所以我们主要阻止在多线程环境下写，读操作的重排序</em></p>
-<h3 id="5-volatile语义的实现"><a href="#5-volatile语义的实现" class="headerlink" title="5. volatile语义的实现"></a>5. volatile语义的实现</h3><h3 id="6-锁语义的实现"><a href="#6-锁语义的实现" class="headerlink" title="6. 锁语义的实现"></a>6. 锁语义的实现</h3><ul>
-<li>volatile保存state，并通过CAS操作，保证不会重排序，因为CAS操作具有原子性</li>
-</ul>
-<h3 id="7-final语义"><a href="#7-final语义" class="headerlink" title="7. final语义"></a>7. final语义</h3><ul>
-<li>final修饰的变量，在初始化时对final域的写，不能与final域引用对象的赋值操作重排序</li>
-<li>final修饰的变量，第一次读final域，不能与第一次final域引用对象的赋值操作重排序</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+        <h1 id="JMM基础概念"><a href="#JMM基础概念" class="headerlink" title="JMM基础概念"></a>JMM基础概念</h1><h2 id="1-并发编程模型需要解决两个问题"><a href="#1-并发编程模型需要解决两个问题" class="headerlink" title="1. 并发编程模型需要解决两个问题"></a>1. 并发编程模型需要解决两个问题</h2><ul>
+<li>不同线程之间如何同步<br>同步是指程序中用于控制不同线程间操作发生相对顺序的机制</li>
+<li>不同线程之间如何通信<br>通信有两种机制：共享内存和消息传递<br>共享内存的并发模型里，线程之间共享程序的公共状态，通过写-读内存中的公共状态进行隐式通信。<br>消息传递的并发模型里，线程之间没有公共状态，线程之间必须通过发送消息来显示进行通信。<blockquote>
+<p>Java采用的是共享内存模型</p>
+</blockquote>
+        
+          <a class="article-more-a" href="/2020/09/21/JMM%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/#more">more >></a>
+        
       
 
       
@@ -422,11 +398,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color4">JMM</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">JMM</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
             
             <div class="clearfix"></div>
