@@ -16,7 +16,7 @@
 <meta property="og:description" content="JMM基础概念1. 并发编程模型需要解决两个问题 不同线程之间如何同步同步是指程序中用于控制不同线程间操作发生相对顺序的机制 不同线程之间如何通信通信有两种机制：共享内存和消息传递共享内存的并发模型里，线程之间共享程序的公共状态，通过写-读内存中的公共状态进行隐式通信。消息传递的并发模型里，线程之间没有公共状态，线程之间必须通过发送消息来显示进行通信。 Java采用的是共享内存模型">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-09-21T02:58:15.000Z">
-<meta property="article:modified_time" content="2020-09-22T01:15:28.068Z">
+<meta property="article:modified_time" content="2020-09-23T14:25:00.204Z">
 <meta property="article:author" content="yuanchuang">
 <meta property="article:tag" content="JMM">
 <meta name="twitter:card" content="summary">
@@ -182,25 +182,53 @@
 </blockquote>
 <a id="more"></a>
 <h2 id="2-重排序"><a href="#2-重排序" class="headerlink" title="2. 重排序"></a>2. 重排序</h2></li>
+</ul>
+<p><em>重排序是指编译器和处理器为了优化程序性能而对指令序列进行了重新排序的一种手段</em></p>
+<ul>
 <li>编译器优化的重排序，编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序</li>
 <li>指令级并行的重排序，现代处理器采用了指令级并行技术来将多条指令重叠执行</li>
 <li>内存系统的重排序，由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行</li>
 </ul>
-<p><em>重排序是指编译器和处理器为了优化程序性能而对指令序列进行了重新排序的一种手段</em><br><em>重排序虽然提升了效率，但同时也带了内存可见性问题，为了解决重排序问题，引入了内存屏障</em><br><em>在x86处理器中，只有写读进行重排序，所以我们主要阻止在多线程环境下写，读操作的重排序</em></p>
-<h2 id="3-内存屏障"><a href="#3-内存屏障" class="headerlink" title="3. 内存屏障"></a>3. 内存屏障</h2><ul>
-<li>store store</li>
-<li>store load</li>
-<li>load load</li>
-<li>load store</li>
-</ul>
+<p><em>重排序虽然提升了效率，但同时也带了内存可见性问题，为了解决重排序问题，引入了内存屏障</em><br><em>在x86处理器中，只有写读进行重排序，所以我们主要阻止在多线程环境下写，读操作的重排序</em></p>
+<h2 id="3-内存屏障"><a href="#3-内存屏障" class="headerlink" title="3. 内存屏障"></a>3. 内存屏障</h2><p><em>内存屏障，也称内存栅栏，内存栅障，屏障指令等，是一类屏障指令，是CPU或编译器在对内存随机访问的操作中的一个同步点，使得此点之前的所有读写操作都执行后才可以执行次点之后的操作。</em></p>
+<table>
+<thead>
+<tr>
+<th align="center">屏障类型</th>
+<th align="center">指令示例</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">LoadLoad Barriers</td>
+<td align="center">Load1;LoadLoad;Load2</td>
+<td align="left">确保Load1数据的装载先于Load2及所有后续装载指令的装载</td>
+</tr>
+<tr>
+<td align="center">StoreStore Barriers</td>
+<td align="center">Store1;StoreStore;Store2</td>
+<td align="left">确保Store1数据对其他处理器可见先于Store2及所有后续存储指令的存储</td>
+</tr>
+<tr>
+<td align="center">LoadStore Barriers</td>
+<td align="center">Load1;LoadStore;Store2</td>
+<td align="left">确保Load1数据的装载先于Store2及所有后续储存指令刷新到内存</td>
+</tr>
+<tr>
+<td align="center">StoreLoad Barriers</td>
+<td align="center">Store1;StoreLoad;Load2</td>
+<td align="left">确保Store1数据对其他处理器可见先于Load2及所有后续装载指令的装载。StoreLoadBarriers会使该屏障之前的所有内存访问指令（储存和装载指令）完成之后，才执行该屏障之后的内存访问指令</td>
+</tr>
+</tbody></table>
+<p><strong>LoadStore Barriers是一个全能型屏障，它同时具有其他3个屏障的效果</strong></p>
 <h2 id="4-happends-before规则"><a href="#4-happends-before规则" class="headerlink" title="4. happends-before规则"></a>4. happends-before规则</h2><ul>
 <li>程序顺序规则：同一线程中每个操作happends-before该线程后续的任意操作</li>
 <li>监视器锁规则：对一个锁的释放（解锁）happends-before锁的获取（加锁）</li>
 <li>volatile变量规则：用volatile关键字修饰的变量的写操作happends-before任意线程对该变量的读操作</li>
 <li>传递性：如果A操作happends-before B操作，B操作happends-before C操作 则 A happends-before B</li>
 </ul>
-<h2 id="5-as-if-serial规则"><a href="#5-as-if-serial规则" class="headerlink" title="5. as-if-serial规则"></a>5. as-if-serial规则</h2><p>同一线程中，不管如何排序，最终的操作结果不能改变。可看成顺序执行代码</p>
-<h2 id="6-顺序一致性内存模型"><a href="#6-顺序一致性内存模型" class="headerlink" title="6. 顺序一致性内存模型"></a>6. 顺序一致性内存模型</h2><p>一个理想的模型，处理器和编程语言的内存模型都会参考该模型</p>
+<h2 id="5-as-if-serial规则"><a href="#5-as-if-serial规则" class="headerlink" title="5. as-if-serial规则"></a>5. as-if-serial规则</h2><p><em>同一线程中，不管如何排序，最终的操作结果不能改变。可看成顺序执行代码</em></p>
+<h2 id="6-顺序一致性内存模型"><a href="#6-顺序一致性内存模型" class="headerlink" title="6. 顺序一致性内存模型"></a>6. 顺序一致性内存模型</h2><p><em>一个理想的模型，处理器和编程语言的内存模型都会参考该模型</em></p>
 <p><strong>顺序一致性内存模型两大特性：</strong></p>
 <ol>
 <li>一个线程中的所有操作必须按照程序的顺序来执行</li>
