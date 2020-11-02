@@ -202,7 +202,7 @@
 </li>
 <li>BlockingQueue workQueue：阻塞队列，维护着等待执行的Runnable任务对象。<br>常用的几个阻塞队列：<br>LinkedBlockingQueue<br>&nbsp;&nbsp;链式阻塞队列，底层数据结构是链表，默认大小是Integer.MAX_VALUE，也可以指定大小。<br>ArrayBlockingQueue<br>数组阻塞队列，底层数据结构是数组，需要指定队列的大小。<br>SynchronousQueue<br>同步队列，内部容量为0，每个put操作必须等待一个take操作，反之亦然。<br>DelayQueue<br>延迟队列，该队列中的元素只有当其指定的延迟时间到了，才能够从队列中获取到该元素 。</li>
 </ul>
-<h1 id="线程池处理任务的主要流程"><a href="#线程池处理任务的主要流程" class="headerlink" title="线程池处理任务的主要流程"></a>线程池处理任务的主要流程</h1><p><img src="/assets/img/threadpool_work_flow.jpg" alt="处理任务流程图"></p>
+<h1 id="线程池处理任务的主要流程"><a href="#线程池处理任务的主要流程" class="headerlink" title="线程池处理任务的主要流程"></a>线程池处理任务的主要流程</h1><p><img src="/assets/img/threadpool_work_flow.png" alt="处理任务流程图"></p>
 <h1 id="线程池是如何复用线程的？"><a href="#线程池是如何复用线程的？" class="headerlink" title="线程池是如何复用线程的？"></a>线程池是如何复用线程的？</h1>
       
 
